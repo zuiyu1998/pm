@@ -4,7 +4,7 @@ function Task() {
 
 export function Plan() {
   return (
-    <div>
+    <div className="text-3xl font-bold">
       Plan View
       <Task />
     </div>

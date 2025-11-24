@@ -1,3 +1,4 @@
+import "./app.css";
 import { Plan } from './views/plan';
 
 function App() {
