@@ -3,4 +3,16 @@ name = "pm_backend"
 version = "0.1.0"
 edition = "2024"
 
+[features]
+default = ["sqlite"]
+
+sqlite = ["migration/sqlite"]
+
 [dependencies]
+
+pm_entity = { path = "../pm_entity" }
+# 数据库
+migration = { path = "../migration" }
+pm_sea_orm = { path = "../pm_sea_orm" }
+
+thiserror = { version = "1.0"}

@@ -1,0 +1,11 @@
+[package]
+name = "pm_sea_orm"
+version = "0.1.0"
+edition = "2024"
+
+[features]
+sqlite = ["sea-orm/sqlx-sqlite"]
+
+[dependencies]
+pm_entity = { path = "../pm_entity" }
+sea-orm = { version = "2.0.0-rc.20" }

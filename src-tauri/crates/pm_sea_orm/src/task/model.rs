@@ -1,8 +1,11 @@
-use async_trait::async_trait;
-use std::fmt::Debug;
+use sea_orm::entity::prelude::*;
 
-///工作的抽象
-pub struct Task {
+#[sea_orm::model]
+#[derive(Clone, Debug, PartialEq, Eq, DeriveEntityModel)]
+#[sea_orm(table_name = "pm_task")]
+pub struct Model {
+    #[sea_orm(primary_key)]
+    pub id: i32,
     //工作名称
     pub title: String,
     //hash，名称的hash值，唯一id
@@ -10,9 +13,9 @@ pub struct Task {
     //工作状态
     pub completed: bool,
     //预期目标
-    pub goal: String,
+    pub goal: Option<String>,
     //当前目标
-    pub work: String,
+    pub work: Option<String>,
     //计划时间
     pub plan_at: Option<u64>,
     //创建时间
@@ -23,13 +26,4 @@ pub struct Task {
     pub duration: u64,
 }
 
-pub enum Error {}
-
-pub struct TaskCreate {
-    pub title: String,
-}
-
-#[async_trait]
-pub trait TaskRepo: Send + Sync + Debug {
-    async fn create_task(&self, create: TaskCreate) -> Result<Task, Error>;
-}
+impl ActiveModelBehavior for ActiveModel {}
