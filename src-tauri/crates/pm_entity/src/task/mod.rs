@@ -1,5 +1,9 @@
+use crate::Error;
 use async_trait::async_trait;
-use std::fmt::Debug;
+use std::{
+    fmt::Debug,
+    hash::{DefaultHasher, Hasher},
+};
 
 ///工作的抽象
 pub struct Task {
@@ -10,9 +14,9 @@ pub struct Task {
     //工作状态
     pub completed: bool,
     //预期目标
-    pub goal: String,
+    pub goal: Option<String>,
     //当前目标
-    pub work: String,
+    pub work: Option<String>,
     //计划时间
     pub plan_at: Option<u64>,
     //创建时间
@@ -23,7 +27,14 @@ pub struct Task {
     pub duration: u64,
 }
 
-pub enum Error {}
+impl Task {
+    pub fn get_hash(bytes: &[u8]) -> u64 {
+        let mut hasher = DefaultHasher::new();
+        hasher.write(bytes);
+
+        hasher.finish()
+    }
+}
 
 pub struct TaskCreate {
     pub title: String,

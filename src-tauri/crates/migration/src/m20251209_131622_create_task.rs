@@ -14,7 +14,7 @@ impl MigrationTrait for Migration {
                     .if_not_exists()
                     .col(pk_auto(TaskColumn::Id))
                     .col(string(TaskColumn::Title))
-                    .col(big_integer(TaskColumn::Hash))
+                    .col(big_integer(TaskColumn::Hash).unique_key())
                     .col(boolean(TaskColumn::Completed).default(false))
                     .col(string_null(TaskColumn::Goal))
                     .col(string_null(TaskColumn::Work))
