@@ -8,5 +8,5 @@ sqlite = ["sea-orm/sqlx-sqlite"]
 
 [dependencies]
 pm_entity = { path = "../pm_entity" }
-sea-orm = { version = "2.0.0-rc.20" }
+sea-orm = { workspace = true }
 async-trait = { workspace = true }

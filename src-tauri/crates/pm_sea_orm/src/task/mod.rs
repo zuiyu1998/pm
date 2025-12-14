@@ -13,6 +13,12 @@ pub struct SeaOrmTaskRepo {
     conn: DatabaseConnection,
 }
 
+impl SeaOrmTaskRepo {
+    pub fn new(conn: DatabaseConnection) -> Self {
+        SeaOrmTaskRepo { conn }
+    }
+}
+
 impl IntoActiveModel<TaskActiveModel> for TaskCreate {
     fn into_active_model(self) -> TaskActiveModel {
         let mut active: TaskActiveModel = Default::default();

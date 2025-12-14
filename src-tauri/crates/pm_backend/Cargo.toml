@@ -15,4 +15,8 @@ pm_entity = { path = "../pm_entity" }
 migration = { path = "../migration" }
 pm_sea_orm = { path = "../pm_sea_orm" }
 
-thiserror = { version = "1.0"}
+thiserror = { workspace = true }
+sea-orm = { workspace = true }
+tokio = { workspace = true }
+
+directories = "6.0.0"
