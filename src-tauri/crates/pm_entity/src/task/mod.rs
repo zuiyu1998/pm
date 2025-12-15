@@ -4,8 +4,10 @@ use std::{
     fmt::Debug,
     hash::{DefaultHasher, Hasher},
 };
+use serde::{Deserialize, Serialize};
 
 ///工作的抽象
+#[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct Task {
     //工作名称
     pub title: String,
@@ -36,6 +38,7 @@ impl Task {
     }
 }
 
+#[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct TaskCreate {
     pub title: String,
 }

@@ -3384,6 +3384,7 @@ name = "pm"
 version = "0.1.0"
 dependencies = [
  "pm_backend",
+ "pm_entity",
  "serde",
  "serde_json",
  "tauri",
@@ -3409,6 +3410,7 @@ name = "pm_entity"
 version = "0.1.0"
 dependencies = [
  "async-trait",
+ "serde",
  "thiserror 2.0.17",
 ]
 
