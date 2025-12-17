@@ -1,8 +1,9 @@
-import "./app.css";
-import { Plan } from './views/plan';
+import { router } from '@/router';
+import '@/styles/index.css';
+import { RouterProvider } from 'react-router-dom';
 
 function App() {
-  return <Plan />;
+  return <RouterProvider router={router} />;
 }
 
 export default App;

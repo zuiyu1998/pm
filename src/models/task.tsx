@@ -9,3 +9,7 @@ export type Task = {
   create_at: string;
   finish_at?: string;
 };
+
+export type TaskCreate = {
+  title: string;
+};

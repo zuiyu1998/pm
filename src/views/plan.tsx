@@ -10,7 +10,7 @@ function TaskItem(props: TaskItemProps) {
   const { data } = props;
 
   return (
-    <div className='p-4 border-2 rounded'>
+    <div className='p-4 border-2 border-gray-300 rounded'>
       <div className='text-lg'>{data.title}</div>
     </div>
   );
