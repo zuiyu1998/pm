@@ -1,10 +1,9 @@
 import { Outlet } from 'react-router-dom';
-import { AppTitleBar } from './AppTitleBar/AppTitleBar';
+import './index.css';
 
 export function Layout() {
   return (
-    <div>
-      <AppTitleBar />
+    <div className='app'>
       <Outlet />
     </div>
   );
