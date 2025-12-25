@@ -10,3 +10,4 @@ sqlite = ["sea-orm/sqlx-sqlite"]
 pm_entity = { path = "../pm_entity" }
 sea-orm = { workspace = true }
 async-trait = { workspace = true }
+chrono = { version = "0.4" }

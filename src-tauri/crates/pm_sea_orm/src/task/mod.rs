@@ -8,6 +8,8 @@ use async_trait::async_trait;
 use pm_entity::*;
 use sea_orm::{ActiveModelTrait, ActiveValue::Set, DatabaseConnection, IntoActiveModel};
 
+use crate::utils::get_now_time;
+
 #[derive(Debug)]
 pub struct SeaOrmTaskRepo {
     conn: DatabaseConnection,
@@ -23,8 +25,11 @@ impl IntoActiveModel<TaskActiveModel> for TaskCreate {
     fn into_active_model(self) -> TaskActiveModel {
         let mut active: TaskActiveModel = Default::default();
 
+        let now = get_now_time();
+
         active.hash = Set(Task::get_hash(self.title.as_bytes()));
         active.title = Set(self.title);
+        active.created_at = Set(now.timestamp_millis());
 
         active
     }

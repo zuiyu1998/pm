@@ -17,13 +17,13 @@ pub struct Model {
     //当前目标
     pub work: Option<String>,
     //计划时间
-    pub plan_at: Option<u64>,
+    pub plan_at: Option<i64>,
     //创建时间
-    pub created_at: u64,
+    pub created_at: i64,
     //完成时间
-    pub finished_at: Option<u64>,
+    pub finished_at: Option<i64>,
     //时间花费
-    pub duration: u64,
+    pub duration: i64,
 }
 
 impl ActiveModelBehavior for ActiveModel {}

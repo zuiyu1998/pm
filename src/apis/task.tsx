@@ -4,6 +4,7 @@ import { invoke } from '@tauri-apps/api/core';
 export type Response<T> = {
   data: T;
   code: number;
+  msg?: string;
 };
 
 export async function createTask(create: TaskCreate): Promise<Response<Task>> {
