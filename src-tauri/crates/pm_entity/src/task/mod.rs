@@ -1,10 +1,10 @@
 use crate::Error;
 use async_trait::async_trait;
+use serde::{Deserialize, Serialize};
 use std::{
     fmt::Debug,
     hash::{DefaultHasher, Hasher},
 };
-use serde::{Deserialize, Serialize};
 
 ///工作的抽象
 #[derive(Debug, Clone, Deserialize, Serialize)]
@@ -12,7 +12,7 @@ pub struct Task {
     //工作名称
     pub title: String,
     //hash，名称的hash值，唯一id
-    pub hash: u64,
+    pub hash: i64,
     //工作状态
     pub completed: bool,
     //预期目标
@@ -30,11 +30,11 @@ pub struct Task {
 }
 
 impl Task {
-    pub fn get_hash(bytes: &[u8]) -> u64 {
+    pub fn get_hash(bytes: &[u8]) -> i64 {
         let mut hasher = DefaultHasher::new();
         hasher.write(bytes);
 
-        hasher.finish()
+        i64::try_from(hasher.finish()).expect("task hash fail.")
     }
 }
 

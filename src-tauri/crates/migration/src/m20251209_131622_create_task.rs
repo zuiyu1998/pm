@@ -20,6 +20,7 @@ impl MigrationTrait for Migration {
                     .col(string_null(TaskColumn::Work))
                     .col(big_integer_null(TaskColumn::PlanAt))
                     .col(big_integer(TaskColumn::CreatedAt))
+                    .col(big_integer(TaskColumn::Duration).default(0))
                     .col(big_integer(TaskColumn::FinishedAt).default(0))
                     .to_owned(),
             )
