@@ -13,3 +13,8 @@ export type Task = {
 export type TaskCreate = {
   title: string;
 };
+
+export type TaskPageParams = {
+  page: number;
+  page_size: number;
+};

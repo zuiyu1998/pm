@@ -1,6 +1,8 @@
 import { Button } from '@heroui/react';
 import { Task } from '@/models/task';
 import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { getTaskPageList } from '@/apis/task';
 
 export type TaskData = Task & {};
 
@@ -19,12 +21,7 @@ function TaskItem(props: TaskItemProps) {
 }
 
 export function Plan() {
-  const data = {
-    id: '1',
-    title: 'Sample Task',
-    completed: false,
-    create_at: new Date().toISOString(),
-  };
+  const [data, setData] = useState<Array<Task>>([]);
 
   const navigate = useNavigate();
 
@@ -32,12 +29,30 @@ export function Plan() {
     navigate('/plan/new');
   }
 
+  React.useEffect(() => {
+    async function _getData() {
+      const res = await getTaskPageList({
+        page_size: 50,
+        page: 0,
+      });
+
+      if (res.code == 200) {
+        setData(res.data.data);
+      }
+    }
+
+    _getData();
+  }, []);
+
   return (
     <div>
-      <Button onClick={handleNewTask}>New Task</Button>
       <div className='p-4'>
-        <TaskItem data={data} />
+        {data.map((item) => {
+          return <TaskItem data={item} key={item.id} />;
+        })}
       </div>
+
+      <Button onClick={handleNewTask}>新增</Button>
     </div>
   );
 }

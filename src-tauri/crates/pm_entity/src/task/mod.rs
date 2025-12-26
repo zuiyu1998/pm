@@ -43,7 +43,24 @@ pub struct TaskCreate {
     pub title: String,
 }
 
+#[derive(Debug, Clone, Deserialize, Serialize)]
+pub struct TaskPageParams {
+    pub page: u64,
+    pub page_size: u64,
+}
+
+#[derive(Debug, Clone, Deserialize, Serialize)]
+pub struct PageResponse<T> {
+    pub has_next: bool,
+    pub page: u64,
+    pub page_size: u64,
+    pub data: Vec<T>,
+    pub total: u64,
+}
+
 #[async_trait]
 pub trait TaskRepo: Send + Sync + Debug {
     async fn create_task(&self, create: TaskCreate) -> Result<Task, Error>;
+
+    async fn get_page_list(&self, params: TaskPageParams) -> Result<PageResponse<Task>, Error>;
 }

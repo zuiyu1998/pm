@@ -6,7 +6,10 @@ pub use model::{
 
 use async_trait::async_trait;
 use pm_entity::*;
-use sea_orm::{ActiveModelTrait, ActiveValue::Set, DatabaseConnection, IntoActiveModel};
+use sea_orm::{
+    ActiveModelTrait, ActiveValue::Set, DatabaseConnection, EntityOrSelect, EntityTrait,
+    IntoActiveModel, PaginatorTrait,
+};
 
 use crate::utils::get_now_time;
 
@@ -62,5 +65,38 @@ impl TaskRepo for SeaOrmTaskRepo {
             .map_err(|e| Error::DbError(e.to_string()))?;
 
         Ok(model.into())
+    }
+
+    async fn get_page_list(&self, params: TaskPageParams) -> Result<PageResponse<Task>, Error> {
+        let total = TaskEntity::find()
+            .count(&self.conn)
+            .await
+            .map_err(|e| Error::DbError(e.to_string()))?;
+
+        let paginator = TaskEntity::find()
+            .select()
+            .paginate(&self.conn, params.page_size);
+
+        let data = paginator
+            .fetch_page(params.page)
+            .await
+            .map_err(|e| Error::DbError(e.to_string()))?
+            .into_iter()
+            .map(|model| model.into())
+            .collect::<Vec<Task>>();
+
+        let mut has_next = true;
+
+        if (data.len() as u64) < params.page_size {
+            has_next = false;
+        }
+
+        Ok(PageResponse {
+            has_next,
+            page: params.page,
+            page_size: params.page_size,
+            data,
+            total,
+        })
     }
 }
