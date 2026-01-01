@@ -1,9 +1,8 @@
-import { Button } from '@heroui/react';
 import { Task } from '@/models/task';
-import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
 import { getTaskPageList } from '@/apis/task';
-
+import { Card, Checkbox, Button } from '@heroui/react';
+import { VscTrash } from 'react-icons/vsc';
 export type TaskData = Task & {};
 
 export type TaskItemProps = {
@@ -14,20 +13,28 @@ function TaskItem(props: TaskItemProps) {
   const { data } = props;
 
   return (
-    <div className='p-4 border-2 border-gray-300 rounded'>
-      <div className='text-lg'>{data.title}</div>
-    </div>
+    <Card className='flex flex-row justify-between'>
+      <Checkbox isSelected={data.completed}>
+        <Checkbox.Control>
+          <Checkbox.Indicator />
+        </Checkbox.Control>
+      </Checkbox>
+
+      <div className='flex-1'>
+        <div className='text-lg'>{data.title}</div>
+        <div className='text-xs text-muted'>{data.create_at}</div>
+      </div>
+      <div>
+        <Button isIconOnly variant='danger'>
+          <VscTrash />
+        </Button>
+      </div>
+    </Card>
   );
 }
 
 export function Plan() {
   const [data, setData] = useState<Array<Task>>([]);
-
-  const navigate = useNavigate();
-
-  function handleNewTask() {
-    navigate('/plan/new');
-  }
 
   React.useEffect(() => {
     async function _getData() {
@@ -46,13 +53,11 @@ export function Plan() {
 
   return (
     <div>
-      <div className='p-4'>
+      <div className='p-4 gap-4 flex flex-col'>
         {data.map((item) => {
           return <TaskItem data={item} key={item.id} />;
         })}
       </div>
-
-      <Button onClick={handleNewTask}>新增</Button>
     </div>
   );
 }
