@@ -22,7 +22,8 @@ pub fn run() {
         })
         .invoke_handler(tauri::generate_handler![
             task::create_task,
-            task::get_task_page_list
+            task::get_task_page_list,
+            task::update_task,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

@@ -8,8 +8,7 @@ pub struct Model {
     pub id: i32,
     //工作名称
     pub title: String,
-    //hash，名称的hash值，唯一id
-    pub hash: i64,
+
     //工作状态
     pub completed: bool,
     //预期目标

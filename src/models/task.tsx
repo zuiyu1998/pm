@@ -3,7 +3,7 @@
  */
 
 export type Task = {
-  id: string;
+  id: number;
   title: string;
   completed: boolean;
   create_at: string;
@@ -12,6 +12,12 @@ export type Task = {
 
 export type TaskCreate = {
   title: string;
+};
+
+export type TaskUpdate = {
+  id: number;
+  title: string;
+  completed?: boolean;
 };
 
 export type TaskPageParams = {

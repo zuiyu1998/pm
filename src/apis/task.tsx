@@ -1,4 +1,4 @@
-import { Task, TaskCreate, TaskPageParams } from '@/models/task';
+import { Task, TaskCreate, TaskPageParams, TaskUpdate } from '@/models/task';
 import { invoke } from '@tauri-apps/api/core';
 
 export type Response<T> = {
@@ -14,6 +14,10 @@ export type PageResponse<T> = {
   data: Array<T>;
   total: number;
 };
+
+export async function updateTask(update: TaskUpdate): Promise<Response<Task>> {
+  return await invoke('update_task', { update });
+}
 
 export async function createTask(create: TaskCreate): Promise<Response<Task>> {
   return await invoke('create_task', { create });

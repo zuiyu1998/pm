@@ -24,13 +24,30 @@ impl SeaOrmTaskRepo {
     }
 }
 
+impl IntoActiveModel<TaskActiveModel> for TaskUpdate {
+    fn into_active_model(self) -> TaskActiveModel {
+        let mut active: TaskActiveModel = Default::default();
+
+        let now = get_now_time();
+        active.finished_at = Set(Some(now.timestamp_millis()));
+
+        if let Some(completed) = self.completed {
+            active.completed = Set(completed);
+        }
+
+        active.title = Set(self.title);
+        active.id = Set(self.id);
+
+        active
+    }
+}
+
 impl IntoActiveModel<TaskActiveModel> for TaskCreate {
     fn into_active_model(self) -> TaskActiveModel {
         let mut active: TaskActiveModel = Default::default();
 
         let now = get_now_time();
 
-        active.hash = Set(Task::get_hash(self.title.as_bytes()));
         active.title = Set(self.title);
         active.created_at = Set(now.timestamp_millis());
 
@@ -41,8 +58,8 @@ impl IntoActiveModel<TaskActiveModel> for TaskCreate {
 impl From<TaskModel> for Task {
     fn from(value: TaskModel) -> Self {
         Task {
+            id: value.id,
             title: value.title,
-            hash: value.hash,
             completed: value.completed,
             goal: value.goal,
             work: value.work,
@@ -56,6 +73,17 @@ impl From<TaskModel> for Task {
 
 #[async_trait]
 impl TaskRepo for SeaOrmTaskRepo {
+    async fn update_task(&self, update: TaskUpdate) -> Result<Task, Error> {
+        let active_model = update.into_active_model();
+
+        let model = active_model
+            .update(&self.conn)
+            .await
+            .map_err(|e| Error::DbError(e.to_string()))?;
+
+        Ok(model.into())
+    }
+
     async fn create_task(&self, create: TaskCreate) -> Result<Task, Error> {
         let active_model = create.into_active_model();
 

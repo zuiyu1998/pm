@@ -9,10 +9,9 @@ use std::{
 ///工作的抽象
 #[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct Task {
+    pub id: i32,
     //工作名称
     pub title: String,
-    //hash，名称的hash值，唯一id
-    pub hash: i64,
     //工作状态
     pub completed: bool,
     //预期目标
@@ -39,6 +38,13 @@ impl Task {
 }
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
+pub struct TaskUpdate {
+    pub id: i32,
+    pub title: String,
+    pub completed: Option<bool>,
+}
+
+#[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct TaskCreate {
     pub title: String,
 }
@@ -61,6 +67,8 @@ pub struct PageResponse<T> {
 #[async_trait]
 pub trait TaskRepo: Send + Sync + Debug {
     async fn create_task(&self, create: TaskCreate) -> Result<Task, Error>;
+
+    async fn update_task(&self, update: TaskUpdate) -> Result<Task, Error>;
 
     async fn get_page_list(&self, params: TaskPageParams) -> Result<PageResponse<Task>, Error>;
 }
