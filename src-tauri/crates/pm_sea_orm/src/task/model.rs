@@ -23,6 +23,10 @@ pub struct Model {
     pub finished_at: Option<i64>,
     //时间花费
     pub duration: i64,
+    //是否删除
+    pub delete: bool,
+    //是否启用
+    pub enable: bool,
 }
 
 impl ActiveModelBehavior for ActiveModel {}

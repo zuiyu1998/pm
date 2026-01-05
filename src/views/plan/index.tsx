@@ -1,6 +1,11 @@
 import { Task } from '@/models/task';
 import React, { useState } from 'react';
-import { createTask, getTaskPageList, updateTask } from '@/apis/task';
+import {
+  createTask,
+  getTaskPageList,
+  updateTask,
+  deleteTask,
+} from '@/apis/task';
 import { Card, Checkbox, Button, Input, Spinner } from '@heroui/react';
 import { VscTrash } from 'react-icons/vsc';
 export type TaskData = Task & {};
@@ -15,7 +20,7 @@ function TaskItem(props: TaskItemProps) {
 
   const [loading, setLoading] = React.useState(false);
 
-  async function _onChange() {
+  async function _handleStateChange() {
     try {
       if (loading) {
         return;
@@ -34,9 +39,24 @@ function TaskItem(props: TaskItemProps) {
     }
   }
 
+  async function _handleDelete() {
+    try {
+      if (loading) {
+        return;
+      }
+      setLoading(true);
+      await deleteTask(data.id);
+
+      refresh();
+    } catch (error) {
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
     <Card className='flex flex-row justify-between'>
-      <Checkbox isSelected={data.completed} onChange={_onChange}>
+      <Checkbox isSelected={data.completed} onChange={_handleStateChange}>
         <Checkbox.Control>
           <Checkbox.Indicator />
         </Checkbox.Control>
@@ -47,7 +67,7 @@ function TaskItem(props: TaskItemProps) {
         <div className='text-xs text-muted'>{data.create_at}</div>
       </div>
       <div>
-        <Button isIconOnly variant='danger'>
+        <Button isIconOnly variant='danger' onClick={_handleDelete}>
           <VscTrash />
         </Button>
       </div>

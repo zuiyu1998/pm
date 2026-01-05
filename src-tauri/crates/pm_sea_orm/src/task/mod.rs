@@ -7,8 +7,8 @@ pub use model::{
 use async_trait::async_trait;
 use pm_entity::*;
 use sea_orm::{
-    ActiveModelTrait, ActiveValue::Set, DatabaseConnection, EntityOrSelect, EntityTrait,
-    IntoActiveModel, PaginatorTrait,
+    ActiveModelTrait, ActiveValue::Set, ColumnTrait, DatabaseConnection, EntityOrSelect,
+    EntityTrait, IntoActiveModel, PaginatorTrait, QueryFilter,
 };
 
 use crate::utils::get_now_time;
@@ -73,6 +73,21 @@ impl From<TaskModel> for Task {
 
 #[async_trait]
 impl TaskRepo for SeaOrmTaskRepo {
+    async fn delete_task(&self, id: i32) -> Result<(), Error> {
+        let mut active_model: TaskActiveModel = Default::default();
+
+        active_model.id = Set(id);
+        active_model.delete = Set(false);
+        active_model.enable = Set(false);
+
+        active_model
+            .update(&self.conn)
+            .await
+            .map_err(|e| Error::DbError(e.to_string()))?;
+
+        Ok(())
+    }
+
     async fn update_task(&self, update: TaskUpdate) -> Result<Task, Error> {
         let active_model = update.into_active_model();
 
@@ -102,6 +117,7 @@ impl TaskRepo for SeaOrmTaskRepo {
             .map_err(|e| Error::DbError(e.to_string()))?;
 
         let paginator = TaskEntity::find()
+            .filter(TaskColumn::Enable.eq(true))
             .select()
             .paginate(&self.conn, params.page_size);
 

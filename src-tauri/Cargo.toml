@@ -35,3 +35,5 @@ serde_json = "1"
 
 pm_backend = { path = "./crates/pm_backend"}
 pm_entity = { path = "./crates/pm_entity"}
+tracing-subscriber = { version = "0.3"}
+tracing = { version = "0.1"}

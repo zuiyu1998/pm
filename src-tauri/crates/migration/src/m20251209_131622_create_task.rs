@@ -15,6 +15,8 @@ impl MigrationTrait for Migration {
                     .col(pk_auto(TaskColumn::Id))
                     .col(string(TaskColumn::Title))
                     .col(boolean(TaskColumn::Completed).default(false))
+                    .col(boolean(TaskColumn::Delete).default(false))
+                    .col(boolean(TaskColumn::Enable).default(true))
                     .col(string_null(TaskColumn::Goal))
                     .col(string_null(TaskColumn::Work))
                     .col(big_integer_null(TaskColumn::PlanAt))

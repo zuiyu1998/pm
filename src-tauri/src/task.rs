@@ -19,6 +19,14 @@ fn from_payload<T: Serialize>(payload: T) -> Value {
 }
 
 #[tauri::command]
+pub async fn delete_task(id: i32, app_state: State<'_, AppState>) -> Result<Value, ()> {
+    match app_state.db.task.delete_task(id).await {
+        Ok(task) => Ok(from_payload(task)),
+        Err(e) => Ok(from_error(e)),
+    }
+}
+
+#[tauri::command]
 pub async fn update_task(update: TaskUpdate, app_state: State<'_, AppState>) -> Result<Value, ()> {
     match app_state.db.task.update_task(update).await {
         Ok(task) => Ok(from_payload(task)),

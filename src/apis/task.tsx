@@ -15,6 +15,10 @@ export type PageResponse<T> = {
   total: number;
 };
 
+export async function deleteTask(id: number): Promise<Response<Task>> {
+  return await invoke('delete_task', { id });
+}
+
 export async function updateTask(update: TaskUpdate): Promise<Response<Task>> {
   return await invoke('update_task', { update });
 }

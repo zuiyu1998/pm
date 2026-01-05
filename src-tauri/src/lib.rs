@@ -1,10 +1,18 @@
 pub mod task;
+mod setup;
 
 use pm_backend::{AppState, Config};
 use tauri::Manager;
+use tracing::info;
+
+use crate::setup::setup_logging;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
+    setup_logging();
+
+    info!("App start.");
+
     tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
         .setup(|app| {
@@ -24,6 +32,7 @@ pub fn run() {
             task::create_task,
             task::get_task_page_list,
             task::update_task,
+            task::delete_task,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

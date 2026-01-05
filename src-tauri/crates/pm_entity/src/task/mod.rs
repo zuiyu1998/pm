@@ -66,6 +66,8 @@ pub struct PageResponse<T> {
 
 #[async_trait]
 pub trait TaskRepo: Send + Sync + Debug {
+    async fn delete_task(&self, id: i32) -> Result<(), Error>;
+
     async fn create_task(&self, create: TaskCreate) -> Result<Task, Error>;
 
     async fn update_task(&self, update: TaskUpdate) -> Result<Task, Error>;
