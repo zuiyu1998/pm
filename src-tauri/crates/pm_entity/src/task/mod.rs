@@ -1,10 +1,8 @@
 use crate::Error;
 use async_trait::async_trait;
+use chrono::NaiveDateTime;
 use serde::{Deserialize, Serialize};
-use std::{
-    fmt::Debug,
-    hash::{DefaultHasher, Hasher},
-};
+use std::fmt::Debug;
 
 ///工作的抽象
 #[derive(Debug, Clone, Deserialize, Serialize)]
@@ -19,22 +17,13 @@ pub struct Task {
     //当前目标
     pub work: Option<String>,
     //计划时间
-    pub plan_at: Option<i64>,
+    pub plan_at: Option<NaiveDateTime>,
     //创建时间
-    pub created_at: i64,
+    pub created_at: NaiveDateTime,
     //完成时间
-    pub finished_at: Option<i64>,
+    pub finished_at: Option<NaiveDateTime>,
     //时间花费
     pub duration: i64,
-}
-
-impl Task {
-    pub fn get_hash(bytes: &[u8]) -> i64 {
-        let mut hasher = DefaultHasher::new();
-        hasher.write(bytes);
-
-        i64::try_from(hasher.finish()).expect("task hash fail.")
-    }
 }
 
 #[derive(Debug, Clone, Deserialize, Serialize)]

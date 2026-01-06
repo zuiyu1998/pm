@@ -6,7 +6,7 @@ export type Task = {
   id: number;
   title: string;
   completed: boolean;
-  create_at: string;
+  created_at: string;
   finish_at?: string;
 };
 

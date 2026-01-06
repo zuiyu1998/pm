@@ -19,10 +19,10 @@ impl MigrationTrait for Migration {
                     .col(boolean(TaskColumn::Enable).default(true))
                     .col(string_null(TaskColumn::Goal))
                     .col(string_null(TaskColumn::Work))
-                    .col(big_integer_null(TaskColumn::PlanAt))
-                    .col(big_integer(TaskColumn::CreatedAt))
+                    .col(date_time_null(TaskColumn::PlanAt))
+                    .col(date_time(TaskColumn::CreatedAt))
                     .col(big_integer(TaskColumn::Duration).default(0))
-                    .col(big_integer(TaskColumn::FinishedAt).default(0))
+                    .col(date_time_null(TaskColumn::FinishedAt))
                     .to_owned(),
             )
             .await

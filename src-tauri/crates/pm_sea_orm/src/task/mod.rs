@@ -29,7 +29,7 @@ impl IntoActiveModel<TaskActiveModel> for TaskUpdate {
         let mut active: TaskActiveModel = Default::default();
 
         let now = get_now_time();
-        active.finished_at = Set(Some(now.timestamp_millis()));
+        active.finished_at = Set(Some(now.naive_utc()));
 
         if let Some(completed) = self.completed {
             active.completed = Set(completed);
@@ -49,7 +49,7 @@ impl IntoActiveModel<TaskActiveModel> for TaskCreate {
         let now = get_now_time();
 
         active.title = Set(self.title);
-        active.created_at = Set(now.timestamp_millis());
+        active.created_at = Set(now.naive_utc());
 
         active
     }

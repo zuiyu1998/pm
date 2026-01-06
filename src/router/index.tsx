@@ -1,6 +1,7 @@
 import { Layout } from '@/layouts';
 import { createHashRouter, redirect } from 'react-router-dom';
 import { Plan } from '@/views/plan';
+import { Work } from '@/views/plan/work';
 
 export const router = createHashRouter([
   {
@@ -13,7 +14,16 @@ export const router = createHashRouter([
       },
       {
         path: 'plan',
-        element: <Plan />,
+        children: [
+          {
+            path: '',
+            element: <Plan />,
+          },
+          {
+            path: 'work',
+            element: <Work />,
+          },
+        ],
       },
     ],
   },

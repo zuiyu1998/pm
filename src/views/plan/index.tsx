@@ -7,7 +7,9 @@ import {
   deleteTask,
 } from '@/apis/task';
 import { Card, Checkbox, Button, Input, Spinner } from '@heroui/react';
-import { VscTrash } from 'react-icons/vsc';
+import { VscTrash, VscHistory, VscDebugContinueSmall } from 'react-icons/vsc';
+import { datetime } from '@/utils/datatime';
+import { useNavigate } from 'react-router-dom';
 export type TaskData = Task & {};
 
 export type TaskItemProps = {
@@ -17,8 +19,13 @@ export type TaskItemProps = {
 
 function TaskItem(props: TaskItemProps) {
   const { data, refresh } = props;
+  const navigate = useNavigate();
 
   const [loading, setLoading] = React.useState(false);
+
+  function _gotoWork() {
+    navigate('/plan/work');
+  }
 
   async function _handleStateChange() {
     try {
@@ -64,9 +71,18 @@ function TaskItem(props: TaskItemProps) {
 
       <div className='flex-1'>
         <div className='text-lg'>{data.title}</div>
-        <div className='text-xs text-muted'>{data.create_at}</div>
+        <div className=' text-muted pt-1'>
+          <div className='flex flex-row items-center'>
+            <VscHistory size={14} />
+            <div className='pl-1 text-xs'>{datetime(data.created_at)}</div>
+          </div>
+        </div>
       </div>
-      <div>
+      <div className='flex flex-row gap-3'>
+        <Button isIconOnly onClick={_gotoWork}>
+          <VscDebugContinueSmall />
+        </Button>
+
         <Button isIconOnly variant='danger' onClick={_handleDelete}>
           <VscTrash />
         </Button>

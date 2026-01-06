@@ -1,4 +1,5 @@
 use sea_orm::entity::prelude::*;
+use chrono::NaiveDateTime;
 
 #[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, Eq, DeriveEntityModel)]
@@ -16,11 +17,11 @@ pub struct Model {
     //当前目标
     pub work: Option<String>,
     //计划时间
-    pub plan_at: Option<i64>,
+    pub plan_at: Option<NaiveDateTime>,
     //创建时间
-    pub created_at: i64,
+    pub created_at: NaiveDateTime,
     //完成时间
-    pub finished_at: Option<i64>,
+    pub finished_at: Option<NaiveDateTime>,
     //时间花费
     pub duration: i64,
     //是否删除
